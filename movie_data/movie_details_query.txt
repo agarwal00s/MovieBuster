@@ -1,0 +1,1 @@
+create table movie_details(movie_name varchar(20),day_no int(1),movie_time time,theater_name varchar(20),rating decimal(2,1),seat_booked varchar(500),PRIMARY KEY(movie_name,day_no,movie_time,theater_name));
