@@ -10,7 +10,8 @@
 	if($count==0)
 		echo "1";
 	else{
-			$_SESSION["useremail"]=$user;
+			$_SESSION['useremail']=$user;
+			
 			echo "0";
 	}
 	$conn->close();

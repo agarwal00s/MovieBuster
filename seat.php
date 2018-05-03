@@ -1,4 +1,18 @@
-
+<?php 
+// Start the session
+	session_start();
+	$movie_name=$_SESSION['moname'];
+	$movie_hall=$_SESSION['tname'];
+	$movie_time=$_SESSION['mtime'];
+	$movie_time = substr($movie_time, 0, -3);
+	$movie_day=$_SESSION['dayno'];
+	
+	
+	
+	
+	
+	
+?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 	<head>
@@ -9,9 +23,13 @@
 		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
 		<link rel="stylesheet" type="text/css" href="css/demo.css" />
 		<link rel="stylesheet" type="text/css" href="css/component.css" />
+		
+		
 		<script src="js/modernizr-custom.js"></script>
 		<!-- JQuery CDN -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
 		<style>
 			
 		</style>
@@ -27,12 +45,11 @@
 				<div class="cube__side cube__side--front"></div>
 				<div class="cube__side cube__side--back">
 					<div class="screen">
-						<img src="img/bg-cta.jpg" />
+						<img style="height:100%;width:100%;" src="movie_data/<?php echo $movie_name ?>/back.jpg" />
 						<div class="intro intro--shown">
 							<div class="intro__side">
 								<h2 class="intro__title">
-									
-									<span class="intro__down">Sintel <span class="intro__partial"><em>by</em> <a href="https://durian.blender.org/">The Blender Foundation</a></span></span>
+									<span class="intro__down"><?php echo $movie_name; ?> </span><br/><span>Hall: <?php echo $movie_hall; ?> Time:<?php echo $movie_time; ?> </span>
 								</h2>
 							</div>
 							<div class="intro__side">
@@ -585,12 +602,17 @@
 				<li class="legend__item legend__item--reserved">Reserved</li>
 				<li class="legend__item legend__item--selected">Selected</li>
 			</ul>
-			<button class="action action--buy">Buy tickets</button>
+		<button class="action action--buy" onclick="myBuy()" >Buy tickets</button>
+		
 		</div><!-- /plan -->
 		<button class="action action--lookaround action--disabled" arial-label="Unlook View"></button>
 		<script src="js/classie.js"></script>
 		<script src="js/main.js"></script>
+		
 	</body>
+	
+		
+	
 	<script>
 	var name;
 		var cost=0;
@@ -609,20 +631,33 @@
 				cost=cost+price;
 				tickets=tickets+" "+id;
 			}
-			alert("Tickets: "+tickets+" , Cost: "+cost);
 			
+			
+			alert("price:"+price);
 		}
-	</script>
-	<script>
 		
-	</script>
-	 <script type="text/javascript">
+		function myBuy()
+		{
+			
+			localStorage.setItem('tickets',tickets);
+			localStorage.setItem('cost',cost);
+			
+			
+			window.location.href = "payment.php";
+
+		}
+		
+	
+	
         function run(){
             
 			$('#'+name).removeClass("tooltip");
 			$('#'+name).addClass("row__seat--reserved");
         }
-    </script>
+    	
+
+		
+	</script>
 </html>
 <?php
 	session_start();

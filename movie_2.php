@@ -2,11 +2,25 @@
 	
 	$conn=mysqli_connect("localhost","root","","movie");
 	$sql="select distinct movie_name from movie_details ";
+	
 	$row=$conn->query($sql);
 	$i=-1;
+	
+	
 	while($s=mysqli_fetch_array($row))
 	{
 		$i++;
+		$path='./movie_data/'.$s[0].'/synopsis.txt';
+		$fh = fopen($path,'r');
+		$synopsis='';
+		while ($line = fgets($fh)) {
+			$synopsis=$synopsis.$line;
+			
+		}
+		$ratingSql="select rating from movie_details where movie_name='".$s[0]."'";
+		$ratingRow=$conn->query($ratingSql);
+		$rating=mysqli_fetch_array($ratingRow);
+		
 	if($i%2==0)
 		echo '<section class="bg-color">';
 	else
@@ -24,8 +38,8 @@
 					<img class="card-img-top" src="movie_data/'.$s[0].'/back.jpg" alt="Card image cap" height="300">
 					<div class="card-body">
 						<h5 class="card-title"><b>Synopsis</b></h5>
-						<p class="card-text"><small>Fueled by his restored faith in humanity and inspired by Supermans selfless act, Bruce Wayne enlists newfound ally Diana Prince to face an even greater threat. Together, Batman and Wonder Woman work quickly to recruit a team to stand against this newly awakened enemy. Despite the formation of an unprecedented league of heroes -- Batman, Wonder Woman, Aquaman, Cyborg and the Flash -- it may be too late to save the planet from an assault of catastrophic proportions.</small></p>
-						<p class="card-text"><small class="text-muted">Rating : 3.5/5</small></p>
+						<p class="card-text"><small>'.$synopsis.'</small></p>
+						<p class="card-text"><small class="text-muted">Rating : '.$rating[0].'/5</small></p>
 					</div>
 				</div>
   
@@ -160,6 +174,7 @@
 			</div>
 		</div>
 	</section>';
+	fclose($fh);
 	}
 	mysqli_close($conn);
 	?>	

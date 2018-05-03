@@ -15,14 +15,7 @@ $sql="select distinct movie_name from movie_details order by rating desc" ;
 		$movie_names[$i]=$row[0];
 	}
 	
-	
-	
-	
-	
-	
-	
 	$_SESSION["movie_list"]= $movie_names;
-	
 	
 ?>
 <!DOCTYPE html>
@@ -48,9 +41,7 @@ $sql="select distinct movie_name from movie_details order by rating desc" ;
     <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
 
-    <!-- Plugin CSS -->
-    <link rel="stylesheet" href="device-mockups/device-mockups.min.css">
-
+  
     <!-- Custom styles for this template -->
     <link href="css/new-age.min.css" rel="stylesheet">
 	<style>
@@ -69,10 +60,12 @@ $sql="select distinct movie_name from movie_details order by rating desc" ;
 	}
 	.bg-sec{
 	  background: #ed4264; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #ed4264, #ffedbc); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #ed4264, #ffedbc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background: -webkit-linear-gradient(to right, #ed4264, #ffedbc); /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #ed4264, #ffedbc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 	}
-	
+	#error-msg{
+		color:red;
+	}
   </style>
   </head>
 
@@ -254,7 +247,7 @@ $sql="select distinct movie_name from movie_details order by rating desc" ;
 		<div class="row justify-content-end">
 			
 			<div class="col-lg-12 my-auto">
-				<button type="button" class="btn btn-secondary" onclick="location.href='movie.php'">
+				<button type="button" class="btn btn-secondary" onclick="booking()">
 						View More
 				</button>
 			</div>
@@ -313,11 +306,13 @@ $sql="select distinct movie_name from movie_details order by rating desc" ;
                     <fieldset>
                         <div class="form-group has-error">
                             <input class="form-control is-valid" placeholder="E-mail Address" id="semail" name="email" type="text">
+							
                         </div>
 						
                         <div class="form-group has-success">
                             <input class="form-control is-valid" placeholder="Password" id="spass" name="password" value="" type="password">
-                        </div>
+							<span id="error-msg"></span>
+						</div>
                         
                         
                         <input class="btn btn-lg btn-primary btn-block" value="Sign In" onclick="signmein()" type="submit">
@@ -421,8 +416,8 @@ $sql="select distinct movie_name from movie_details order by rating desc" ;
   function booking()
   {
 	  if(user!="")
-	  location.href='movie.php';
-  else
+			location.href='movie.php';
+		else
 	  $("#bookMovie").modal();
   }
 	function signmein()
@@ -430,18 +425,23 @@ $sql="select distinct movie_name from movie_details order by rating desc" ;
 		semail=$("#semail").val();
 		spass=$("#spass").val();
 		var swell=true;
-		if($("#semail").val()=="")
+		if(semail=="")
 		{
 			$("#semail").removeClass("is-valid");
 			$("#semail").addClass("is-invalid");
-			$("#msg1").html("Please Provide the Email ID");
+			$("#error-msg").html("Please Provide the Email ID");
 			swell=false;
 		}
-		if($("#spass").val()=="")
+		if(spass=="")
 		{
 			$("#spass").removeClass("is-valid");
 			$("#spass").addClass("is-invalid");
-			alert("*Password cannot be empty");
+			$("#error-msg").html("Please provide the password");
+			swell=false;
+		}
+		if((semail=="" )&&(spass==""))
+		{
+			$("#error-msg").html("Please provide the Email-ID and Password");
 			swell=false;
 		}
 		if(swell==true)
@@ -456,12 +456,14 @@ $sql="select distinct movie_name from movie_details order by rating desc" ;
 						$("#semail").addClass("is-invalid");
 						$("#spass").removeClass("is-valid");
 						$("#spass").addClass("is-invalid");
-						alert("*Invalid Username or Password");
+						$("#error-msg").html("Invalid Username or Password");
 					}
 					else if(data==="0")
 					{
+						
 						user=semail;
 						$("#signinsucess").modal();
+						location.href='movie.php';
 					}
 				});
 		}

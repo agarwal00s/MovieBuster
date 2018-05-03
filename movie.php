@@ -1,5 +1,6 @@
 <?php 
 	session_start();
+	$u=$_SESSION["useremail"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,14 +62,12 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" style="color:black" href="#book">Book</a>
+              <a class="nav-link js-scroll-trigger" style="color:black" href="movie.php"><?php echo $u; ?></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" style="color:black" href="#signup">Sign Up</a>
+			<li class="nav-item">
+              <a class="nav-link js-scroll-trigger" style="color:black" href="logout.php">Logout</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" style="color:black" href="#signin">Sign In</a>
-            </li>
+		   
           </ul>
         </div>
       </div>
@@ -122,7 +121,7 @@
 						}
 					);
 			
-			window.location.href="http://localhost/MOVIE/seat.php";
+			window.location.href="seat.php";
 		}
 	</script>
 </html>
